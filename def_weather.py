@@ -31,9 +31,13 @@ def get_weather_tempt_city(city_name):
         response = requests.get(url_data)
         response.raise_for_status()
         data = response.json()
-        print(f"Ciudad: {city.capitalize()}, {data['sys']['country']}")
-        print(f"Temperatura: {data['main']['temp']:.1f}")
-        print(f"Clima: {data['weather'][0]['main']}")
+        return {
+            "ciudad": city_name.capitalize(),
+            "pais": data["sys"]["country"],
+            "temp": data["main"]["temp"],
+            "feels_like": data["main"]["feels_like"],
+            "descripcion": data["weather"][0]["description"],
+        }
     except requests.exceptions.HTTPError as e:
         print(f"Error de API: {e}")
     except requests.exceptions.ConnectionError:
