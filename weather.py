@@ -5,5 +5,3 @@ if resultado:
     print(f"Ciudad: {resultado['ciudad']}, {resultado['pais']}")
     print(f"Temperatura: {resultado['temp']:.1f}°C")
     print(f"Clima: {resultado['descripcion']}")
-
-
