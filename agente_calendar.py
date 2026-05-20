@@ -3,6 +3,9 @@ from groq import Groq
 from dotenv import load_dotenv
 import os
 from calendar_agent import conectar_calendar, crear_evento
+from datetime import date
+
+hoy = date.today().strftime("%Y-%m-%d")
 
 load_dotenv()
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
@@ -45,7 +48,7 @@ def agente(mensaje_usuario):
         messages=[
             {
                 "role": "system",
-                "content": "Eres un asistente que agrega eventos a Google Calendar. Hoy es 2026-05-19. Cuando el usuario mencione 'viernes' es 2026-05-22, 'mañana' es 2026-05-20, etc.",
+                "content": f"Eres un asistente que agrega eventos a Google Calendar. Hoy es {hoy}.",
             },
             {"role": "user", "content": mensaje_usuario},
         ],
@@ -75,7 +78,3 @@ def agente(mensaje_usuario):
     else:
         # La IA respondió con texto normal, no quiso llamar ninguna función
         print(f"IA: {mensaje.content}")
-
-
-# Prueba
-agente("ponme una junta el viernes a las 10 de la mañana, se llama revisión de proyecto, una hora")
