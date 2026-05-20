@@ -16,3 +16,4 @@ while True:
     historial.append({"role": "assistant", "content": respuesta})
 
     print(f"IA: {respuesta}\n")
+

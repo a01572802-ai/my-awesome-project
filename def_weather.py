@@ -8,12 +8,12 @@ load_dotenv(".env")
 def get_weather_tempt_city(city_name):
     city = city_name
     api_key = os.getenv("API_KEY")
-    url_city = (
+    city_name = (
         f"http://api.openweathermap.org/geo/1.0/direct?q={city}&limit=1&appid={api_key}"
     )
 
     try:
-        city_data = requests.get(url_city)
+        city_data = requests.get(city_name)
         city_data.raise_for_status
         city_data_json = city_data.json()
         if not city_data_json:
@@ -32,7 +32,7 @@ def get_weather_tempt_city(city_name):
         response.raise_for_status()
         data = response.json()
         return {
-            "ciudad": city_name.capitalize(),
+            "ciudad": city.capitalize(),
             "pais": data["sys"]["country"],
             "temp": data["main"]["temp"],
             "feels_like": data["main"]["feels_like"],
