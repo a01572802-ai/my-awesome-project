@@ -4,7 +4,7 @@ from groq import Groq
 from dotenv import load_dotenv
 import os
 
-model = SentenceTransformer('all-MiniLM-L6-v2')
+model = SentenceTransformer("all-MiniLM-L6-v2")
 
 # Crear base de datos vectorial en memoria
 client = chromadb.Client()
@@ -22,11 +22,7 @@ apuntes = [
 # Guardar cada apunte en ChromaDB
 for i, apunte in enumerate(apuntes):
     embedding = model.encode(apunte).tolist()
-    collection.add(
-        ids=[str(i)],
-        embeddings=[embedding],
-        documents=[apunte]
-    )
+    collection.add(ids=[str(i)], embeddings=[embedding], documents=[apunte])
 
 print(f"Guardados {collection.count()} apuntes en ChromaDB ✓")
 
@@ -35,21 +31,18 @@ pregunta = "¿cómo repito código?"
 
 # Convertir la pregunta en embedding y buscar
 embedding_pregunta = model.encode(pregunta).tolist()
-resultados = collection.query(
-    query_embeddings=[embedding_pregunta],
-    n_results=2
-)
+resultados = collection.query(query_embeddings=[embedding_pregunta], n_results=2)
 
 print(f"Pregunta: {pregunta}")
 print(f"Apuntes más relevantes:")
-for doc in resultados['documents'][0]:
+for doc in resultados["documents"][0]:
     print(f"  - {doc}")
 
 
 load_dotenv()
 client_groq = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
-contexto = "\n".join(resultados['documents'][0])
+contexto = "\n".join(resultados["documents"][0])
 
 respuesta = client_groq.chat.completions.create(
     model="llama-3.3-70b-versatile",
@@ -59,13 +52,10 @@ respuesta = client_groq.chat.completions.create(
             "content": f"""Responde la pregunta del usuario usando SOLO esta información:
 {contexto}
 
-Si la respuesta no está en la información, di que no lo sabes."""
+Si la respuesta no está en la información, di que no lo sabes.""",
         },
-        {
-            "role": "user",
-            "content": pregunta
-        }
-    ]
+        {"role": "user", "content": pregunta},
+    ],
 )
 
 print(f"\nRespuesta de la IA:")
