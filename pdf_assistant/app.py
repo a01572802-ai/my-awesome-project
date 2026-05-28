@@ -29,7 +29,6 @@ if pdf:
             with st.spinner("Buscando respuesta..."):
                 contexto = buscar_chunks(pregunta, collection)
                 respuesta = responder(pregunta, contexto)
-                
                 st.session_state.historial.append({
                     "pregunta": pregunta,
                     "respuesta": respuesta
